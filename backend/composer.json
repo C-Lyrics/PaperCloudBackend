@@ -1,7 +1,0 @@
-{
-	"require": {
-		"slim/slim": "~2.5",
-	  	"phpunit/phpunit": "4.5.*"
-	}
-
-}
