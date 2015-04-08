@@ -1,13 +1,13 @@
-<?php 
+<?php
 
-require_once('/php/autoloader.php');
+require_once('./php/autoloader.php');
 
 class arxiv {
 	private $baseUrl = 'http://export.arxiv.org/api/query?search_query=';
 	private $pie;
 
 	function __construct() {
-		$this->pie = new SimplePie();	
+		$this->pie = new SimplePie();
 	}
 
 	public function getBaseUrl() {
