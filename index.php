@@ -4,13 +4,15 @@ require'arxiv.php';
 
 use Slim\Slim;
 
-
+//creates the app
 $app = new Slim([
 	'templates.path' => './templates'
 ]);
 
+//sets the template directory to find the html files
 $app->view()->setTemplatesDirectory('./templates');
 
+//implements the search by keyword functionality
 $app->get('/keyword/:keyword', function($keyword) use ($app){
 
 	$arxiv = new arxiv();
@@ -19,6 +21,7 @@ $app->get('/keyword/:keyword', function($keyword) use ($app){
 	$app->render('getKeyword.php', ['items' => $items]);
 });
 
+//implements the search by name functionality
 $app->get('/name/:name', function($name) use ($app){
 
 	$arxiv = new arxiv();
@@ -27,6 +30,8 @@ $app->get('/name/:name', function($name) use ($app){
 	$app->render('getResearcher.php', ['names' => $names]);
 });
 
+//implements the autocomplete functionality
+//not finished
 $app->get('/name_ac/:name', function($name) use ($app) {
 
 	$arxiv = new arxiv();
