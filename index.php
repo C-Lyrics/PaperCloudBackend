@@ -40,4 +40,55 @@ $app->get('/name_ac/:name', function($name) use ($app) {
 	$app->render('getResearcherAc.php', ['names' => $names]);
 });
 
+//IEEE
+
+$app->get('/IEEE/keyword/:keyword', function($keyword) use ($app){
+
+	$IEEE = new IEEE();
+	$items = $IEEE->queryByKeyword($keyword);
+
+	$app->render('getKeyword.php', ['items' => $items]);
+});
+
+$app->get('/IEEE/name/:name', function($name) use ($app){
+
+	$IEEE = new IEEE();
+	$names = $IEEE->queryByName($name);
+
+	$app->render('getKeyword.php', ['names' => $names]);
+});
+
+$app->get('/IEEE/title/:title', function($title) use ($app){
+
+	$IEEE = new IEEE();
+	$items = $IEEE->queryByTitle($title);
+
+	$app->render('getKeyword.php', ['items' => $items]);
+});
+
+//v2
+$app->get('/v2/keyword/:keyword', function($keyword) use ($app){
+
+	$arxiv = new arxiv();
+	$items = $arxiv->queryByKeywordV2($keyword);
+
+	$app->render('getKeyword.php', ['items' => $items]);
+});
+
+$app->get('/v2/name/:name', function($name) use ($app){
+
+	$arxiv = new arxiv();
+	$names = $arxiv->queryByNameV2($name);
+
+	$app->render('getResearcher.php', ['names' => $names]);
+});
+
+$app->get('/v2/title/:title', function($title) use ($app){
+
+	$arxiv = new arxiv();
+	$names = $arxiv->queryByTitle($title);
+
+	$app->render('getResearcher.php', ['names' => $names]);
+});
+
 $app->run();

@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 require_once('./php/autoloader.php');
 
@@ -7,7 +7,7 @@ class arxiv {
 	private $pie;
 
 	function __construct() {
-		$this->pie = new SimplePie();
+		$this->pie = new SimplePie();	
 	}
 
 	public function getBaseUrl() {
@@ -18,48 +18,52 @@ class arxiv {
 		return $this->pie;
 	}
 
-	//returns research paper data based on a given keyword
 	function queryByKeyword($word) {
-		//initializes the simple pie parser
-		$url = $this->baseUrl . 'all:' . $word . '&max_results=200';
+		$url = $this->baseUrl . 'all:' . $word . '&max_results=10';
 		$this->pie->set_feed_url($url);
 		$this->pie->init();
 
 		$items = $this->pie->get_items();
 
-		//content array will contain a key-value mapping of a research paper title and summary
 		$contentArray = [];
 
-		//adds each item from that API result to content array
 		foreach ($items as $item) {
-			$contentArray[$item->get_title()] = $item->get_content();
+		//	$contentArray[$item->get_title()] = $item->get_content();
+			array_push($contentArray, [
+				"title" => $item->get_title(),
+				"content" => $item->get_content()
+			]);
 		}
 
-		//if there is no data for that keyword, throw an error
 		if(count($contentArray) == 0) {
 			return ["error" => "1"];
 		}
 		return $contentArray;
 	}
 
-	//returns research paper data based on a given researcher name
 	function queryByName($name) {
-		//initializes the simple pie parser
 		$url = $this->baseUrl . 'au:' . $name .'&max_results=200';
 		$this->pie->set_feed_url($url);
 		$this->pie->init();
 
 		$items = $this->pie->get_items();
 
-		//content array will contain  a key-value mapping of a research paper title and summary
 		$contentArray = [];
 
-		//scans through each API result and checks to make sure the author's name is in fact in that result
-		//necessary because sometimes the api will return a false result (perhaps because the name is mentioned in the paper elsewhere)
+		/*
+		foreach($items as $item) {
+			$contentArray[$item->get_title()] = $item->get_content();
+		}
+		*/
+
 		foreach($items as $item) {
 			foreach($item->get_authors() as $author) {
 				if(strpos(strtolower($author->get_name()), strtolower($name)) !== false){
-					$contentArray[$item->get_title()] = $item->get_content();
+			//		$contentArray[$item->get_title()] = $item->get_content();
+					array_push($contentArray, [
+						"title" => $item->get_title(),
+						"content" => $item->get_content()
+					]);
 				}
 			}
 		}
@@ -71,7 +75,6 @@ class arxiv {
 		return $contentArray;
 	}
 
-	//still needs work, will finish in sprint 2
 	function autocomplete($name) {
 		$characters = [
 			'a',
@@ -93,7 +96,9 @@ class arxiv {
 		$nameArray = [];
 
 		foreach($items as $item) {
+
 			foreach($item->get_authors() as $author) {
+
 				if(strpos(strtolower($author->get_name()), strtolower($name)) !== false){
 					if(!array_key_exists($author->get_name(), $nameArray))
 						$nameArray[$author->get_name()] = $author->get_name();
@@ -126,6 +131,10 @@ class arxiv {
 		}
 		*/
 
+		if(count($nameArray) == 0) {
+			return ["error" => "1"];
+		}
+
 		$returnArray = [];
 		foreach($nameArray as $value) {
 			array_push($returnArray, $value);
@@ -133,4 +142,83 @@ class arxiv {
 
 		return $returnArray;
 	}
+
+
+	/**********************************************************************
+	 *
+	 * V2
+	 *
+	 ***********************************************************************/
+	function queryByKeywordV2($word) {
+		$url = $this->baseUrl . 'all:' . $word . '&max_results=10';
+		$this->pie->set_feed_url($url);
+		$this->pie->init();
+
+		$items = $this->pie->get_items();
+
+		$contentArray = [];
+
+		foreach ($items as $item) {
+			//	$contentArray[$item->get_title()] = $item->get_content();
+			array_push($contentArray, [
+				"title" => $item->get_title()
+			]);
+		}
+
+		if(count($contentArray) == 0) {
+			return ["error" => "1"];
+		}
+		return $contentArray;
+	}
+
+	function queryByNameV2($name) {
+		$url = $this->baseUrl . 'au:' . $name .'&max_results=200';
+		$this->pie->set_feed_url($url);
+		$this->pie->init();
+
+		$items = $this->pie->get_items();
+
+		$contentArray = [];
+
+		foreach($items as $item) {
+			foreach($item->get_authors() as $author) {
+				if(strpos(strtolower($author->get_name()), strtolower($name)) !== false){
+					array_push($contentArray, [
+						"title" => $item->get_title()
+					]);
+				}
+			}
+		}
+
+		if(count($contentArray) == 0) {
+			return ["error" => "1"];
+		}
+
+		return $contentArray;
+	}
+
+	function queryByTitle($title) {
+		$url = $this->baseUrl . 'all:' . $title . '&max_results=10';
+		$this->pie->set_feed_url($url);
+		$this->pie->init();
+
+		$items = $this->pie->get_items();
+
+		$contentArray = [];
+
+		foreach ($items as $item) {
+
+			array_push($contentArray, [
+				"title" => $item->get_title(),
+				"summary" => $item->get_content(),
+				"publisher" => $item->get_item_tags('http://arxiv.org/schemas/atom', 'journal_ref')[0]['data'],
+				"date" => $item->get_date()
+					//http://simplepie.org/api/class-SimplePie.html
+			]);
+			break;
+		}
+
+		return $contentArray;
+	}
+
 }
