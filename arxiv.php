@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 require_once('./php/autoloader.php');
 
@@ -7,7 +7,7 @@ class arxiv {
 	private $pie;
 
 	function __construct() {
-		$this->pie = new SimplePie();	
+		$this->pie = new SimplePie();
 	}
 
 	public function getBaseUrl() {
@@ -19,7 +19,7 @@ class arxiv {
 	}
 
 	function queryByKeyword($word) {
-		$url = $this->baseUrl . 'all:' . $word . '&max_results=10';
+		$url = $this->baseUrl . 'all:' . $word . '&max_results=50';
 		$this->pie->set_feed_url($url);
 		$this->pie->init();
 
@@ -42,7 +42,7 @@ class arxiv {
 	}
 
 	function queryByName($name) {
-		$url = $this->baseUrl . 'au:' . $name .'&max_results=200';
+		$url = $this->baseUrl . 'au:' . $name .'&max_results=50';
 		$this->pie->set_feed_url($url);
 		$this->pie->init();
 
