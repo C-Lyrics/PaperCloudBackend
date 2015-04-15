@@ -1,4 +1,5 @@
 <?php
+header("Access-Control-Allow-Origin: *");
 require  __DIR__ . '/vendor/autoload.php';
 require'arxiv.php';
 
