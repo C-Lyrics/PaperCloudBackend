@@ -56,13 +56,13 @@ $app->get('/IEEE/name/:name', function($name) use ($app){
 	$IEEE = new IEEE();
 	$names = $IEEE->queryByName($name);
 
-	$app->render('getKeyword.php', ['names' => $names]);
+	$app->render('getResearcher.php', ['names' => $names]);
 });
 
-$app->get('/IEEE/title/:title', function($title) use ($app){
+$app->get('/IEEE/id/:id', function($id) use ($app){
 
 	$IEEE = new IEEE();
-	$items = $IEEE->queryByTitle($title);
+	$items = $IEEE->queryByID($id);
 
 	$app->render('getKeyword.php', ['items' => $items]);
 });
