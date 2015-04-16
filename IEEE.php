@@ -8,6 +8,19 @@ class IEEE {
         return $this->baseUrl;
     }
 
+    function getArticleId($nodeList) {
+        
+        $contentArray = [];
+        foreach ($nodeList as $node) {
+            foreach($node->childNodes as $child) {
+                if ($child->nodeType == XML_CDATA_SECTION_NODE) {
+                    array_push($contentArray, $child->textContent);
+                }
+            }
+        }
+        return $contentArray;
+    }
+
     function queryByKeyword($keyword) {
         $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=50&sortorder=desc';
 
@@ -16,13 +29,8 @@ class IEEE {
         $doc = new DOMDocument();
         $doc->load($url);
         $destinations = $doc->getElementsByTagName("arnumber");
-        foreach ($destinations as $destination) {
-            foreach($destination->childNodes as $child) {
-                if ($child->nodeType == XML_CDATA_SECTION_NODE) {
-                    array_push($contentArray, $child->textContent);
-                }
-            }
-        }
+        $contentArray = getArticleId($destinations);
+
 
         if(count($contentArray) == 0) {
             return '{"error":"1"}';
@@ -38,13 +46,8 @@ class IEEE {
         $doc = new DOMDocument();
         $doc->load($url);
         $destinations = $doc->getElementsByTagName("arnumber");
-        foreach ($destinations as $destination) {
-            foreach($destination->childNodes as $child) {
-                if ($child->nodeType == XML_CDATA_SECTION_NODE) {
-                    array_push($contentArray, $child->textContent);
-                }
-            }
-        }
+        $contentArray = getArticleId($destinations);
+
 
         if(count($contentArray) == 0) {
             return '{"error":"1"}';
