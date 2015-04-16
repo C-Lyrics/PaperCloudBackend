@@ -48,7 +48,6 @@ class IEEE {
         $destinations = $doc->getElementsByTagName("arnumber");
         $contentArray = getArticleId($destinations);
 
-
         if(count($contentArray) == 0) {
             return '{"error":"1"}';
         }
