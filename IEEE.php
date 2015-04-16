@@ -4,12 +4,15 @@
 class IEEE {
     private $baseUrl = 'http://ieeexplore.ieee.org/gateway/ipsSearch.jsp?';
 
+    /**
+     * @return string
+     */
     public function getBaseUrl() {
         return $this->baseUrl;
     }
 
     function getArticleId($nodeList) {
-        
+
         $contentArray = [];
         foreach ($nodeList as $node) {
             foreach($node->childNodes as $child) {
@@ -21,6 +24,10 @@ class IEEE {
         return $contentArray;
     }
 
+    /**
+     * @param $keyword
+     * @return array|string
+     */
     function queryByKeyword($keyword) {
         $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=50&sortorder=desc';
 
@@ -29,8 +36,7 @@ class IEEE {
         $doc = new DOMDocument();
         $doc->load($url);
         $destinations = $doc->getElementsByTagName("arnumber");
-        $contentArray = getArticleId($destinations);
-
+        $contentArray = $this->getArticleId($destinations);
 
         if(count($contentArray) == 0) {
             return '{"error":"1"}';
@@ -38,6 +44,11 @@ class IEEE {
 
         return $contentArray;
     }
+
+    /**
+     * @param $name
+     * @return array|string
+     */
     function queryByName($name) {
         $url = $this->baseUrl . 'au=' . $name . '&sortorder=desc';
 
@@ -46,8 +57,7 @@ class IEEE {
         $doc = new DOMDocument();
         $doc->load($url);
         $destinations = $doc->getElementsByTagName("arnumber");
-        $contentArray = getArticleId($destinations);
-
+        $contentArray = $this->getArticleId($destinations);
 
         if(count($contentArray) == 0) {
             return '{"error":"1"}';
