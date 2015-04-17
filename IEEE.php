@@ -5,7 +5,7 @@ class IEEE {
     private $baseUrl = 'http://ieeexplore.ieee.org/gateway/ipsSearch.jsp?';
 
     /**
-     * @return string
+     * @return string           [returns the base URL]
      */
     public function getBaseUrl() {
         return $this->baseUrl;
@@ -25,8 +25,8 @@ class IEEE {
     }
 
     /**
-     * @param $keyword
-     * @return array|string
+     * @param $keyword          [Takes in the keyword for the search and queries it to the API]
+     * @return array|string     [Returns an array of ID numbers for articles found by the API]
      */
     function queryByKeyword($keyword) {
         $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=50&sortorder=desc';
@@ -46,8 +46,8 @@ class IEEE {
     }
 
     /**
-     * @param $name
-     * @return array|string
+     * @param $name             [Takes in the researcher name and queries to the API]
+     * @return array|string     [Returns an array of ID numbers for articles found by the API]
      */
     function queryByName($name) {
         $url = $this->baseUrl . 'au=' . $name . '&sortorder=desc';
@@ -67,8 +67,8 @@ class IEEE {
     }
 
     /**
-     * @param $id
-     * @return array|string
+     * @param $id               [Takes in a single research paper ID number and queries to the API]
+     * @return array|string     [Returns research paper title, abstract, publisher title, and year published]
      */
     function queryByID($id) {
         $url = $this->baseUrl . 'an=' . $id;

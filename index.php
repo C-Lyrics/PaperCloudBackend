@@ -5,7 +5,7 @@ require'arxiv.php';
 
 use Slim\Slim;
 
-//creates the app
+//creates the application
 $app = new Slim([
 	'templates.path' => './templates'
 ]);
