@@ -137,7 +137,7 @@ class IEEE {
             }
             array_push($contentArray, [
                 "title" => $title,
-                "abstract" => $abstract
+                "content" => $abstract
             ]);
         }
 
@@ -170,7 +170,7 @@ class IEEE {
             }
             array_push($contentArray, [
                 "title" => $title,
-                "abstract" => $abstract
+                "content" => $abstract
             ]);
         }
 
