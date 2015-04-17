@@ -76,15 +76,7 @@ class IEEE {
 
         $doc = new DOMDocument();
         $doc->load($url);
-        /*
-        $abstracts = $doc->getElementsByTagName("abstract");
-        foreach ($abstracts as $abstract) {
-            foreach($abstract->childNodes as $child) {
-                if ($child->nodeType == XML_CDATA_SECTION_NODE) {
-                    array_push($contentArray, $child->textContent);
-                }
-            }
-        }*/
+
         $documents = $doc->getElementsByTagName("document");
 
         $title = "";
@@ -112,6 +104,75 @@ class IEEE {
             "publisher" => $publisher,
             "date" => $date
         ]);
+
+        if(count($contentArray) == 0) {
+            return '{"error":"1"}';
+        }
+
+        return $contentArray;
+    }
+
+    /**
+     * v2
+     */
+    function queryByKeywordV2($keyword) {
+        $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=50&sortorder=desc';
+        $contentArray = [];
+
+        $doc = new DOMDocument();
+        $doc->load($url);
+
+        $documents = $doc->getElementsByTagName("document");
+
+        foreach ($documents as $document) {
+            $title = "";
+            $abstract = "";
+
+            foreach($document->childNodes as $child) {
+                if(strpos($child->nodeName, "title") !== false && strlen($child->nodeName) == 5) {
+                    $title = $child->textContent;
+                } else if(strpos($child->nodeName, "abstract") !== false ) {
+                    $abstract = $child->textContent;
+                }
+            }
+            array_push($contentArray, [
+                "title" => $title,
+                "abstract" => $abstract
+            ]);
+        }
+
+        if(count($contentArray) == 0) {
+            return '{"error":"1"}';
+        }
+
+        return $contentArray;
+    }
+
+    function queryByNameV2($name) {
+        $url = $this->baseUrl . 'au=' . $name . '&hc=50&sortorder=desc';
+        $contentArray = [];
+
+        $doc = new DOMDocument();
+        $doc->load($url);
+
+        $documents = $doc->getElementsByTagName("document");
+
+        foreach ($documents as $document) {
+            $title = "";
+            $abstract = "";
+
+            foreach($document->childNodes as $child) {
+                if(strpos($child->nodeName, "title") !== false && strlen($child->nodeName) == 5) {
+                    $title = $child->textContent;
+                } else if(strpos($child->nodeName, "abstract") !== false ) {
+                    $abstract = $child->textContent;
+                }
+            }
+            array_push($contentArray, [
+                "title" => $title,
+                "abstract" => $abstract
+            ]);
+        }
 
         if(count($contentArray) == 0) {
             return '{"error":"1"}';

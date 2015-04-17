@@ -67,6 +67,23 @@ $app->get('/IEEE/id/:id', function($id) use ($app){
 	$app->render('display.php', ['data' => $items]);
 });
 
+//IEEE v2
+$app->get('/IEEE/v2/keyword/:keyword', function($keyword) use ($app){
+
+	$IEEE = new IEEE();
+	$items = $IEEE->queryByKeywordV2($keyword);
+
+	$app->render('display.php', ['data' => $items]);
+});
+
+$app->get('/IEEE/v2/name/:name', function($name) use ($app){
+
+	$IEEE = new IEEE();
+	$names = $IEEE->queryByNameV2($name);
+
+	$app->render('display.php', ['data' => $names]);
+});
+
 //v2
 $app->get('/v2/keyword/:keyword', function($keyword) use ($app){
 
