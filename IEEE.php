@@ -113,7 +113,9 @@ class IEEE {
     }
 
     /**
-     * v2
+     * [queryByKeywordV2 description]
+     * @param  [type] $keyword [description]
+     * @return [type]          [description]
      */
     function queryByKeywordV2($keyword) {
         $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=100&sortorder=desc';
@@ -160,6 +162,11 @@ class IEEE {
         return $contentArray;
     }
 
+    /**
+     * [queryByNameV2 description]
+     * @param  [type] $name [description]
+     * @return [type]       [description]
+     */
     function queryByNameV2($name) {
         $url = $this->baseUrl . 'au=' . $name . '&hc=100&sortorder=desc';
         $contentArray = [];
@@ -182,7 +189,7 @@ class IEEE {
             }
             array_push($contentArray, [
                 "title" => $title,
-                "abstract" => $abstract
+                "content" => $abstract
             ]);
         }
 
