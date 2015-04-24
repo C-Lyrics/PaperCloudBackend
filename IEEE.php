@@ -29,7 +29,7 @@ class IEEE {
      * @return array|string     [Returns an array of ID numbers for articles found by the API]
      */
     function queryByKeyword($keyword) {
-        $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=50&sortorder=desc';
+        $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=100&sortorder=desc';
 
         $contentArray = [];
 
@@ -50,7 +50,7 @@ class IEEE {
      * @return array|string     [Returns an array of ID numbers for articles found by the API]
      */
     function queryByName($name) {
-        $url = $this->baseUrl . 'au=' . $name . '&sortorder=desc';
+        $url = $this->baseUrl . 'au=' . $name . '&hc=100&sortorder=desc';
 
         $contentArray = [];
 
@@ -98,16 +98,16 @@ class IEEE {
             }
         }
 
+        if($title == "" && $abstract == "") {
+            return '{"error":"1"}';
+        }
+
         array_push($contentArray, [
             "title" => $title,
             "abstract" => $abstract,
             "publisher" => $publisher,
             "date" => $date
         ]);
-
-        if(count($contentArray) == 0) {
-            return '{"error":"1"}';
-        }
 
         return $contentArray;
     }
@@ -116,7 +116,7 @@ class IEEE {
      * v2
      */
     function queryByKeywordV2($keyword) {
-        $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=50&sortorder=desc';
+        $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=100&sortorder=desc';
         $contentArray = [];
 
         $doc = new DOMDocument();
@@ -127,17 +127,29 @@ class IEEE {
         foreach ($documents as $document) {
             $title = "";
             $abstract = "";
+            $publisher = "";
+            $date = "";
+            $pdf = "";
 
             foreach($document->childNodes as $child) {
                 if(strpos($child->nodeName, "title") !== false && strlen($child->nodeName) == 5) {
                     $title = $child->textContent;
                 } else if(strpos($child->nodeName, "abstract") !== false ) {
                     $abstract = $child->textContent;
+                } else if(strpos($child->nodeName, "pubtitle") !== false) {
+                    $publisher = $child->textContent;
+                } else if(strpos($child->nodeName, "py") !== false) {
+                    $date = $child->textContent;
+                } else if(strpos($child->nodeName, "pdf") !== false) {
+                    $pdf = $child->textContent;
                 }
             }
             array_push($contentArray, [
                 "title" => $title,
-                "abstract" => $abstract
+                "abstract" => $abstract,
+                "publisher" => $publisher,
+                "date" => $date,
+                "pdf" => $pdf
             ]);
         }
 
@@ -149,7 +161,7 @@ class IEEE {
     }
 
     function queryByNameV2($name) {
-        $url = $this->baseUrl . 'au=' . $name . '&hc=50&sortorder=desc';
+        $url = $this->baseUrl . 'au=' . $name . '&hc=100&sortorder=desc';
         $contentArray = [];
 
         $doc = new DOMDocument();

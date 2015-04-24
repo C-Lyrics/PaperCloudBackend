@@ -24,7 +24,7 @@ class arxivTest extends PHPUnit_Framework_TestCase {
 
         $this->assertNotEmpty($content);
         $this->assertNotNull($content);
-        $this->assertEquals(count($content), 200);
+        $this->assertEquals(count($content), 50);
 
         $arxivBadInput = new arxiv();
         $badInputContent = $arxivBadInput->queryByKeyword('badinput');
@@ -40,7 +40,7 @@ class arxivTest extends PHPUnit_Framework_TestCase {
 
         $this->assertNotEmpty($content);
         $this->assertNotNull($content);
-        $this->assertEquals(count($content), 200);
+        $this->assertEquals(count($content), 50);
 
         $arxivBadInput = new arxiv();
         $badInputContent = $arxivBadInput->queryByName('badinput');
@@ -50,6 +50,39 @@ class arxivTest extends PHPUnit_Framework_TestCase {
         $this->assertEquals($badInputContent['error'], 1);
     }
 
+    public function testQueryByKeywordV2() {
+        $arxiv = new arxiv();
+        $content = $arxiv->queryByKeyword('electron');
+
+        $this->assertNotEmpty($content);
+        $this->assertNotNull($content);
+        $this->assertEquals(count($content), 50);
+
+        $arxivBadInput = new arxiv();
+        $badInputContent = $arxivBadInput->queryByKeyword('badinput');
+
+        $this->assertNotEmpty($badInputContent);
+        $this->assertNotNull($badInputContent);
+        $this->assertEquals($badInputContent['error'], 1);
+    }
+
+    public function testQueryByNameV2() {
+        $arxiv = new arxiv();
+        $content = $arxiv->queryByName('david');
+
+        $this->assertNotEmpty($content);
+        $this->assertNotNull($content);
+        $this->assertEquals(count($content), 50);
+
+        $arxivBadInput = new arxiv();
+        $badInputContent = $arxivBadInput->queryByName('badinput');
+
+        $this->assertNotEmpty($badInputContent);
+        $this->assertNotNull($badInputContent);
+        $this->assertEquals($badInputContent['error'], 1);
+    }
+
+/*
     public function testAutocomplete() {
         $arxiv = new arxiv();
         $content = $arxiv->autocomplete('david');
@@ -63,5 +96,5 @@ class arxivTest extends PHPUnit_Framework_TestCase {
 
         $this->assertEmpty($badInputContent);
         $this->assertNotNull($badInputContent);
-    }
+    }*/
 }

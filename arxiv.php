@@ -150,7 +150,7 @@ class arxiv {
 	 *
 	 ***********************************************************************/
 	function queryByKeywordV2($word) {
-		$url = $this->baseUrl . 'all:' . $word . '&max_results=10';
+		$url = $this->baseUrl . 'all:' . $word . '&max_results=50';
 		$this->pie->set_feed_url($url);
 		$this->pie->init();
 
@@ -172,7 +172,7 @@ class arxiv {
 	}
 
 	function queryByNameV2($name) {
-		$url = $this->baseUrl . 'au:' . $name .'&max_results=200';
+		$url = $this->baseUrl . 'au:' . $name .'&max_results=50';
 		$this->pie->set_feed_url($url);
 		$this->pie->init();
 
