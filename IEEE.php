@@ -128,7 +128,8 @@ class IEEE {
 
         foreach ($documents as $document) {
             $title = "";
-            $abstract = "";
+            $content = "";
+            $author = "";
             $publisher = "";
             $date = "";
             $pdf = "";
@@ -137,7 +138,9 @@ class IEEE {
                 if(strpos($child->nodeName, "title") !== false && strlen($child->nodeName) == 5) {
                     $title = $child->textContent;
                 } else if(strpos($child->nodeName, "abstract") !== false ) {
-                    $abstract = $child->textContent;
+                    $content = $child->textContent;
+                } else if (strpos($child->nodeName, "authors") !== false){
+                    $author = str_replace(';', ',', $child->textContent);
                 } else if(strpos($child->nodeName, "pubtitle") !== false) {
                     $publisher = $child->textContent;
                 } else if(strpos($child->nodeName, "py") !== false) {
@@ -148,10 +151,11 @@ class IEEE {
             }
             array_push($contentArray, [
                 "title" => $title,
-                "abstract" => $abstract,
+                "content" => $content,
+                "author" => $author,
                 "publisher" => $publisher,
                 "date" => $date,
-                "pdf" => $pdf
+                "link" => $pdf
             ]);
         }
 
@@ -178,18 +182,36 @@ class IEEE {
 
         foreach ($documents as $document) {
             $title = "";
-            $abstract = "";
+            $content = "";
+            $author = "";
+            $publisher = "";
+            $date = "";
+            $pdf = "";
+
 
             foreach($document->childNodes as $child) {
                 if(strpos($child->nodeName, "title") !== false && strlen($child->nodeName) == 5) {
                     $title = $child->textContent;
                 } else if(strpos($child->nodeName, "abstract") !== false ) {
-                    $abstract = $child->textContent;
+                    $content = $child->textContent;
+                } else if (strpos($child->nodeName, "authors") !== false){
+                //    $author = $child->textContent;
+                    $author = str_replace(';', ',', $child->textContent);
+                }else if(strpos($child->nodeName, "pubtitle") !== false) {
+                    $publisher = $child->textContent;
+                } else if(strpos($child->nodeName, "py") !== false) {
+                    $date = $child->textContent;
+                } else if(strpos($child->nodeName, "pdf") !== false) {
+                    $pdf = $child->textContent;
                 }
             }
             array_push($contentArray, [
                 "title" => $title,
-                "content" => $abstract
+                "content" => $content,
+                "author" => $author,
+                "publisher" => $publisher,
+                "date" => $date,
+                "link" => $pdf
             ]);
         }
 
