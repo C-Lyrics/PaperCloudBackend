@@ -25,7 +25,7 @@ class arxiv {
 
 		$items = $this->pie->get_items();
 
-		$contentArray = [];
+		$contentArray = array();
 
 		foreach ($items as $item) {
 		//	$contentArray[$item->get_title()] = $item->get_content();
