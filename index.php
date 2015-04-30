@@ -14,12 +14,12 @@ $app = new Slim([
 ]);
 
 /**
-*sets the template directory to find the html files
+* [sets the template directory to find the html files]
 */
 $app->view()->setTemplatesDirectory('./templates');
 
 /**
-*implements the search by keyword functionality
+*@param $keyword 	[implements the search by keyword functionality]
 */
 $app->get('/keyword/:keyword', function($keyword) use ($app){
 
@@ -30,7 +30,7 @@ $app->get('/keyword/:keyword', function($keyword) use ($app){
 });
 
 /**
-*implements the search by name functionality
+*@param $name    	[implements the search by name functionality]
 */
 $app->get('/name/:name', function($name) use ($app){
 
@@ -40,8 +40,7 @@ $app->get('/name/:name', function($name) use ($app){
 	$app->render('display.php', ['data' => $names]);
 });
 /**
-*implements the autocomplete functionality
-*not finished
+*@param $name    	[implements the autocomplete functionality]
 */
 $app->get('/name_ac/:name', function($name) use ($app) {
 
@@ -52,7 +51,7 @@ $app->get('/name_ac/:name', function($name) use ($app) {
 });
 
 /**
- *IEEE: recieves the keyword and finds the papers that contain the keyword
+ *@param $keyword    [IEEE: recieves the keyword and grabs information from IEEE to have it be displayed in the html]
  */
 $app->get('/IEEE/keyword/:keyword', function($keyword) use ($app){
 
@@ -62,7 +61,7 @@ $app->get('/IEEE/keyword/:keyword', function($keyword) use ($app){
 	$app->render('display.php', ['data' => $items]);
 });
 /**
- *IEEE: recieves the researchers name and finds the papers published by that researcher
+ *@param $name    [IEEE: recieves the researchers name and grabs info. from IEEE to have it be displayed in the html]
  */
 $app->get('/IEEE/name/:name', function($name) use ($app){
 
@@ -73,7 +72,7 @@ $app->get('/IEEE/name/:name', function($name) use ($app){
 });
 
 /**
- *IEEE: recieves the ID and finds the papers that connect to the ID used
+ *@param $id    [IEEE: recieves the ID and finds the papers that connect to the ID used to be displayed in the html]
  */
 $app->get('/IEEE/id/:id', function($id) use ($app){
 
@@ -84,6 +83,9 @@ $app->get('/IEEE/id/:id', function($id) use ($app){
 });
 
 //IEEE v2
+/**
+ *@param $keyword    [gets the keyword from the search and gets the research paper from IEEE to be displayed in the html]
+ */
 $app->get('/IEEE/v2/keyword/:keyword', function($keyword) use ($app){
 
 	$IEEE = new IEEE();
@@ -92,6 +94,9 @@ $app->get('/IEEE/v2/keyword/:keyword', function($keyword) use ($app){
 	$app->render('display.php', ['data' => $items]);
 });
 
+/**
+ *@param $name    [gets the name of the research paper from IEEE to be displayed in the html]
+ */
 $app->get('/IEEE/v2/name/:name', function($name) use ($app){
 
 	$IEEE = new IEEE();
@@ -102,8 +107,8 @@ $app->get('/IEEE/v2/name/:name', function($name) use ($app){
 
 //V2
 /**
-* gets the keyword from the search and gets the research paper from arxiv
-*/
+ *@param $keyword    [gets the keyword from the search and gets the research paper from arxiv, and display in the html]
+ */
 $app->get('/v2/keyword/:keyword', function($keyword) use ($app){
 
 	$arxiv = new arxiv();
@@ -112,9 +117,10 @@ $app->get('/v2/keyword/:keyword', function($keyword) use ($app){
 	$app->render('display.php', ['data' => $items]);
 });
 
+//V2
 /**
-* gets the name of the research paper from arxiv
-*/
+ *@param $name    [gets the name of the research paper from arxiv, and display in the html]
+ */
 $app->get('/v2/name/:name', function($name) use ($app){
 
 	$arxiv = new arxiv();
@@ -123,9 +129,10 @@ $app->get('/v2/name/:name', function($name) use ($app){
 	$app->render('display.php', ['data' => $names]);
 });
 
+//V2
 /**
-* gets the title of the research paper from arxiv
-*/
+ *@param $title    [gets the title of the research paper from arxiv, and display in the html]
+ */
 $app->get('/v2/title/:title', function($title) use ($app){
 
 	$arxiv = new arxiv();
