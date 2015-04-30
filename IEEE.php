@@ -10,7 +10,9 @@ class IEEE {
     public function getBaseUrl() {
         return $this->baseUrl;
     }
-
+    /**
+     * @return array           [returns the contentArray]
+     */
     function getArticleId($nodeList) {
 
         $contentArray = [];
