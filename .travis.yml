@@ -4,6 +4,7 @@ language: php
 php:
     - 5.5
     - 5.4
-    - 5.3
 
-script: phpunit --bootstrap arxiv.php tests/arxivTest.php
+script: 
+    - phpunit --bootstrap IEEE.php tests/IEEETest.php
+    - phpunit --bootstrap arxiv.php tests/arxivTest.php
