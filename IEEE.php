@@ -120,7 +120,7 @@ class IEEE {
      * @return [type]          [description]
      */
     function queryByKeywordV2($keyword) {
-        $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=100&sortorder=desc';
+        $url = $this->baseUrl . 'querytext=' . $keyword . '&hc=10&sortorder=desc';
         $contentArray = [];
 
         $doc = new DOMDocument();
